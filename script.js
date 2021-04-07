@@ -14,6 +14,8 @@
         }, options );
 
         $('#'+settings.renderId).parent().addClass(settings.parentClass);
+        $('#'+settings.renderId).addClass("hide-class");
+
 
 
         //coverting data into json value
@@ -61,7 +63,7 @@
 
         function createDropdown(data) {
             var inputType= settings.inputType;
-            var list="";
+            var list="<div>";
             $.each(data, function(key,dataList) {
                 var addGroupInput="";
                 if(inputType==="checkbox"){
@@ -71,10 +73,11 @@
                 var listItem="";
 
                 $.each(dataList[dataList.name], function(k,list) {
-                    listItem=listItem+('<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'"/><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>');
+                    listItem=listItem+('<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'" /><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>');
                 });
                 list=list+listItem+('</div>');
             });
+            list= list+('</div>');
             return list;
         }
 
@@ -88,7 +91,7 @@
                 $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id=""#'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input class="search-input" placeholder="'+settings.SearchPlaceHolder+'"><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
             }
-            $('.custom-dropdownmenu').append(customDropdown);
+            $('.'+parentClass+' .custom-dropdownmenu').append(customDropdown);
         }
         var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
         //open Dropdown
@@ -151,7 +154,7 @@
             var selectedValue=settings.selectedArray;
             selectedValue=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
-                selectedValue.push($(this).val());
+                selectedValue.push($(this).next('label').text());
             });
 
             //Append text
@@ -184,6 +187,15 @@ $( document ).ready(function() {
     $('#multiselect').customSelect(
         {
             inputType:"checkbox",
+            EmptyText: "EmptyText",
+            AppendText: true,
+            AppendLimit: 2,
+            MultipleSelectText: "Categories",
+            SearchPlaceHolder:"search Category",
+        });
+    $('#multiselect1').customSelect(
+        {
+            inputType:"radio",
             EmptyText: "EmptyText",
             AppendText: true,
             AppendLimit: 2,
