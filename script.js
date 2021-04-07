@@ -6,26 +6,72 @@
             MultipleSelectText: "",
             SearchPlaceHolder: "Search",
             AppendLimit: 2,
-            radioboxList: [],
-            checkboxList: [],
+            DropDownList: [],
             selectedArray: [],
             AppendText: false,
-            renderId: "multiselect"
+            renderId: $(this).attr("id"),
+            parentClass: $(this).attr("id")+'DropdownParentId',
         }, options );
 
-        //create dropdown
-        function createDropdown(data,inputType) {
+        $('#'+settings.renderId).parent().addClass(settings.parentClass);
+
+
+        //coverting data into json value
+        var selectedList=$(this).html();
+        var countList=0;
+        var headerText="";
+        var DropDownList= settings.DropDownList;
+        $(selectedList).each(function() {
+            if($(this).html()){
+                if($(this).hasClass("tree-level-0")){
+                    headerText = $(this).html();
+                    var headerValue = $(this).val();
+                    var headerClass = $(this).attr('class');
+                    var objects  = {
+                        "name" : headerText,
+                        "value" : headerValue,
+                        "className" : headerClass,
+                        [headerText]: [],
+                    }
+                    DropDownList.push(objects);
+                    countList=countList+1;
+                    if(countList >= 1){
+                        countList=0;
+                    }
+                }
+                else {
+                    var optionText= $(this).html();
+                    var optionVal=$(this).val();
+                    var optionClass=$(this).attr('class');
+                    $.each(DropDownList, function( index, value ){
+                        if(value.name===headerText){
+                            var object  = {
+                                "name" : optionText,
+                                "value" : optionVal,
+                                "className": optionClass
+                            }
+                            DropDownList[index][headerText].push(object);
+                        }
+                    });
+                    settings.DropDownList=DropDownList;
+
+                }
+            }
+        });
+
+        function createDropdown(data) {
+            var inputType= settings.inputType;
             var list="";
-            $.each(data, function(key,value) {
+            $.each(data, function(key,dataList) {
                 var addGroupInput="";
                 if(inputType==="checkbox"){
-                    addGroupInput='<input class="addGroupInput" type="checkbox" />';
+                    addGroupInput='<input class="addGroupInput" value="'+dataList.value+'" type="checkbox" />';
                 }
-
-                list=list+'<div class="group-header">'+addGroupInput+'<a class="btn header-label" data-toggle="collapse" data-target="#collapse'+key+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+key+settings.renderId+'">'+key+'</a></div><div class="customDropdown-group collapse show" id="collapse'+key+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
+                list=list+'<div class="group-header '+dataList.className+'">'+addGroupInput+'<a class="btn header-label" data-toggle="collapse" data-target="#collapse'+dataList.value+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+dataList.value+settings.renderId+'">'+dataList.name+'</a></div><div class="customDropdown-group collapse" id="collapse'+dataList.value+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
                 var listItem="";
-                $.each(value, function(k,list) {
-                    listItem=listItem+('<a class="dropdown-item"><input id="'+inputType+list+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list+'"/><label for="'+inputType+list+settings.renderId+'">'+list+'</label></a>');
+
+                $.each(dataList[dataList.name], function(k,list) {
+                    listItem=listItem+('<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'"/><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>');
                 });
                 list=list+listItem+('</div>');
             });
@@ -36,59 +82,49 @@
         //setting input type
         for (var key in options){
             var customDropdown="";
+            parentClass=settings.parentClass;
             //checkbox
-            if (key==="checkboxList") {
-                $('#'+settings.renderId).append('<label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><button type="button" class="multiselect-btn btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id=""#'+settings.renderId+'DropDownButton"></button><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input class="search-input" placeholder="'+settings.SearchPlaceHolder+'"><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
-                var customCheckList=settings.checkboxList;
-                customDropdown = createDropdown(customCheckList,'checkbox');
+            if (key==="inputType") {
+                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id=""#'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input class="search-input" placeholder="'+settings.SearchPlaceHolder+'"><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
+                customDropdown = createDropdown(settings.DropDownList);
             }
-
-            //radiobox
-            if (key==="radioboxList") {
-                $('#'+settings.renderId).append('<label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><button type="button" class="multiselect-btn btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="#'+settings.renderId+'DropDownButton"></button><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input class="search-input" placeholder="'+settings.SearchPlaceHolder+'"><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div>');
-                var customRadioBoxList=settings.radioboxList;
-                customDropdown = createDropdown(customRadioBoxList,'radio');
-            }
-            $('#'+settings.renderId+' .dropdown-menu').append(customDropdown);
+            $('.custom-dropdownmenu').append(customDropdown);
         }
-
-        var $renderDropdown = $('#'+settings.renderId+' .dropdown-menu');
-
+        var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
         //open Dropdown
-        $renderDropdown.on('click', function() {
-            $renderDropdown.addClass('open');
+        $(renderDropdown).on('click', function() {
+            $(renderDropdown).addClass('open');
         });
-        $('#'+settings.renderId+' .category-label').on('click', function(event) {
-            if($renderDropdown.hasClass('open')){
-                $renderDropdown.removeClass('open');
-                $renderDropdown.removeClass('show');
+        $('.'+settings.parentClass+' .custom-dropdown-select .category-label').on('click', function(event) {
+            if($(renderDropdown).hasClass('open')){
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
                 event.stopPropagation();
             }
             else{
-                $renderDropdown.addClass('open');
-                event.stopPropagation();
+                $(renderDropdown).addClass('show');
             }
         });
 
         //close Dropdown
-        $('#'+settings.renderId+' .multiselect-btn').on('click', function(event) {
-            if($renderDropdown.hasClass('open')){
-                $renderDropdown.removeClass('open');
-                $renderDropdown.removeClass('show');
+        $(renderDropdown+' .multiselect-btn').on('click', function(event) {
+            if($(renderDropdown).hasClass('open')){
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
                 event.stopPropagation();
             }
         });
 
         //close Dropdown
         $(document).on("click", function(event) {
-            if($renderDropdown !== event.target && !$renderDropdown.has(event.target).length) {
-                $renderDropdown.removeClass('open');
-                $renderDropdown.removeClass('show');
+            if($(renderDropdown) !== event.target && !$(renderDropdown).has(event.target).length) {
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
             }
         });
 
         //multi
-        $('#'+settings.renderId+' .addGroupInput').on("change", function() {
+        $('.'+settings.parentClass+' .custom-dropdownmenu .addGroupInput').on("change", function() {
             var $inputboxes = $(this).parent().next(".customDropdown-group").find("input");
             if ($(this).prop('checked')) {
                 $inputboxes.prop('checked', true);
@@ -97,7 +133,7 @@
             }
         });
 
-        $('#'+settings.renderId+' .customDropdown-group input').on("change", function() {
+        $('.'+settings.parentClass+' .custom-dropdownmenu .customDropdown-group input').on("change", function() {
             var $outerdiv = $(this).parent().parent();
             var $inputbox = $outerdiv.find("input");
             var $checkboxesTotal = $inputbox.length;
@@ -111,31 +147,31 @@
         });
 
         //get checked value
-        $('#'+settings.renderId+' input').on("change",function() {
+        $(renderDropdown+' input').on("change",function() {
             var selectedValue=settings.selectedArray;
             selectedValue=[];
-            $.each($('#'+settings.renderId+' .dropdown-item input:checked'), function() {
+            $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
                 selectedValue.push($(this).val());
             });
 
             //Append text
             if(settings.AppendText) {
                 if(selectedValue.length == 0 ) {
-                    $('#'+settings.renderId+' .multiselect-btn').html("");
+                    $('.'+settings.parentClass+' .multiselect-btn').html("");
                 }
                 else if(selectedValue.length > settings.AppendLimit) {
-                    $('#'+settings.renderId+' .multiselect-btn').text(selectedValue.length+' '+settings.MultipleSelectText);
+                    $('.'+settings.parentClass+' .multiselect-btn').text(selectedValue.length+' '+settings.MultipleSelectText);
                 }
                 else {
-                    $('#'+settings.renderId+' .multiselect-btn').text(selectedValue.join(", "));
+                    $('.'+settings.parentClass+' .multiselect-btn').text(selectedValue.join(", "));
                 }
 
                 //add class to label
                 if(!selectedValue.length == 0) {
-                    $('#'+settings.renderId+' .category-label').addClass('has-value');
+                    $('.'+settings.parentClass+' .category-label').addClass('has-value');
                 }
                 else {
-                    $('#'+settings.renderId+' .category-label').removeClass('has-value');
+                    $('.'+settings.parentClass+' .category-label').removeClass('has-value');
                 }
             }
         });
@@ -147,24 +183,12 @@
 $( document ).ready(function() {
     $('#multiselect').customSelect(
         {
-            renderId: "multiselect",
-            checkboxList: {
-                Letter: ['A','B','C',['d','e']],
-                Number: ['1','2','3','4'],
-            },
+            inputType:"checkbox",
             EmptyText: "EmptyText",
             AppendText: true,
-            AppendLimit: 5,
+            AppendLimit: 2,
             MultipleSelectText: "Categories",
             SearchPlaceHolder:"search Category",
         });
-    $('#muti1').customSelect(
-        {
-            renderId: "muti1",
-            radioboxList: {
-                Letter: ['A','B','C','D'],
-                Number: ['1','2','3','4']
-            },
-            AppendText: true,
-        });
+
 });
