@@ -14,7 +14,7 @@
             closeIcon: false
         }, options );
 
-        $('#'+settings.renderId).parent().addClass(settings.parentClass);
+        $('#'+settings.renderId).wrap('<div class="'+settings.parentClass+'"></div>');
         $('#'+settings.renderId).addClass("hide-class");
 
         //create dropdown
@@ -89,29 +89,27 @@
         });
 
         //search
-        $('#'+settings.renderId+'search').on('change',function(e) {
+        $('#'+settings.renderId+'search').keyup(function(e) {
             var customDropdown="";
-            var searchText=$(this).val();
+            var searchText=$(this).val().toLowerCase();
             var list=settings.DropDownList;
             if(searchText!=="") {
                 var search= list.filter(function (data) {
-                    if (data.name == searchText) {
-                        customDropdown = createDropdown([data])
+                    var dataName = data.name.toLowerCase();
+                    if (dataName.match(searchText)) {
+                        customDropdown = createDropdown([data]);
                         $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
-
                     }
                     else {
                         data[data.name].filter(function (data) {
-                            if (data.name == searchText) {
+                            var dataName = data.name.toLowerCase();
+                            if (dataName.match(searchText)) {
                                 var inputType= settings.inputType;
                                 var datalist=[data];
                                 customDropdown = $.each([data], function(k,list) {
                                     var listData='<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'" /><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>';
-                                    $('.custom-dropdownmenu .collapseContent').html(listData);
+                                    $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(listData);
                                 });
-                            }
-                            else {
-                                $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html("<div style='text-align: center'>No Data Found</div>");
                             }
                         })
                     }
@@ -120,7 +118,6 @@
             }
             else {
                 customDropdown = createDropdown(settings.DropDownList)
-
                 $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
             }
             e.stopPropagation();
