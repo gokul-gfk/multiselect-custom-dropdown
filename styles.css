@@ -44,13 +44,7 @@
 	 box-shadow: none;
 }
  .custom-dropdown-select .multiselect-btn:after {
-	 position: absolute;
-	 right: 15px;
-	 border-top: 7px solid;
-	 border-right: 7px solid transparent;
-	 border-bottom: 0;
-	 border-left: 7px solid transparent;
-	 transition: all linear 0.25s;
+	 content: none;
 }
  .custom-dropdown-select .custom-dropdownmenu {
 	 max-height: 850px !important;
