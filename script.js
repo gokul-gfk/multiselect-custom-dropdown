@@ -16,8 +16,6 @@
         $('#'+settings.renderId).parent().addClass(settings.parentClass);
         $('#'+settings.renderId).addClass("hide-class");
 
-
-
         //coverting data into json value
         var selectedList=$(this).html();
         var countList=0;
@@ -56,11 +54,11 @@
                         }
                     });
                     settings.DropDownList=DropDownList;
-
                 }
             }
         });
 
+        //create dropdown
         function createDropdown(data) {
             var inputType= settings.inputType;
             var list="<div>";
@@ -82,7 +80,6 @@
         }
 
         // Apply options
-        //setting input type
         for (var key in options){
             var customDropdown="";
             parentClass=settings.parentClass;
@@ -93,7 +90,9 @@
             }
             $('.'+parentClass+' .custom-dropdownmenu').append(customDropdown);
         }
+
         var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
+
         //open Dropdown
         $(renderDropdown).on('click', function() {
             $(renderDropdown).addClass('open');
@@ -149,58 +148,83 @@
             }
         });
 
-        //get checked value
+        function createArray(selectedValue){
+            var selectedArray=[];
+            $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
+                var text = $(this).next('label').text();
+                var value = $(this).val();
+                var customAppend=('<span class="append-text"><span class="appendText" value="'+value+'">'+text+'</span><button class="select-close-icon" title="'+value+'"><span>X</span></button></span>');
+                selectedArray.push({"name" : text,"value" : value})
+                if(settings.inputType==="checkbox") {
+                    selectedValue.push(customAppend);
+                }
+                else {
+                    selectedValue.push(text);
+                }
+            });
+            return selectedValue;
+        }
+
+        function textAppend(data){
+            if(data.length == 0 ) {
+                $('.'+settings.parentClass+' .multiselect-btn').html("");
+            }
+            else if(data.length > settings.AppendLimit) {
+                $('.'+settings.parentClass+' .multiselect-btn').text(data.length+' '+settings.MultipleSelectText);
+            }
+            else {
+                $('.'+settings.parentClass+' .multiselect-btn').html(data.join(", "));
+            }
+            //add class to label
+            if(!data.length == 0) {
+                $('.'+settings.parentClass+' .category-label').addClass('has-value');
+            }
+            else {
+                $('.'+settings.parentClass+' .category-label').removeClass('has-value');
+            }
+            return data;
+        }
+
+        function removeSelected(){
+            $('.select-close-icon').on("click", function(event) {
+                var removeVal= $(this).attr('title');
+                $(renderDropdown+' .dropdown-item input[type=checkbox][value='+removeVal+']').prop('checked', false);
+                selectedValue=[];
+                createArray(selectedValue);
+                textAppend(selectedValue);
+            });
+        }
+
+        //on change input
         $(renderDropdown+' input').on("change",function() {
             var selectedValue=settings.selectedArray;
             selectedValue=[];
-            $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
-                selectedValue.push($(this).next('label').text());
-            });
-
+            createArray(selectedValue);
             //Append text
             if(settings.AppendText) {
-                if(selectedValue.length == 0 ) {
-                    $('.'+settings.parentClass+' .multiselect-btn').html("");
-                }
-                else if(selectedValue.length > settings.AppendLimit) {
-                    $('.'+settings.parentClass+' .multiselect-btn').text(selectedValue.length+' '+settings.MultipleSelectText);
-                }
-                else {
-                    $('.'+settings.parentClass+' .multiselect-btn').text(selectedValue.join(", "));
-                }
-
-                //add class to label
-                if(!selectedValue.length == 0) {
-                    $('.'+settings.parentClass+' .category-label').addClass('has-value');
-                }
-                else {
-                    $('.'+settings.parentClass+' .category-label').removeClass('has-value');
-                }
+                textAppend(selectedValue);
             }
+            //remove selected
+            removeSelected();
         });
-
         return this;
     };
 }( jQuery ));
 
 $( document ).ready(function() {
-    $('#multiselect').customSelect(
-        {
-            inputType:"checkbox",
-            EmptyText: "EmptyText",
-            AppendText: true,
-            AppendLimit: 2,
-            MultipleSelectText: "Categories",
-            SearchPlaceHolder:"search Category",
-        });
-    $('#multiselect1').customSelect(
-        {
-            inputType:"radio",
-            EmptyText: "EmptyText",
-            AppendText: true,
-            AppendLimit: 2,
-            MultipleSelectText: "Categories",
-            SearchPlaceHolder:"search Category",
-        });
-
+    $('#multiselect').customSelect({
+        inputType:"checkbox",
+        EmptyText: "EmptyText",
+        AppendText: true,
+        AppendLimit: 2,
+        MultipleSelectText: "Categories",
+        SearchPlaceHolder:"search Category",
+    });
+    $('#multiselect1').customSelect({
+        inputType:"radio",
+        EmptyText: "EmptyText",
+        AppendText: true,
+        MultipleSelectText: "Categories",
+        SearchPlaceHolder:"search Category",
+    });
 });
