@@ -17,48 +17,6 @@
         $('#'+settings.renderId).parent().addClass(settings.parentClass);
         $('#'+settings.renderId).addClass("hide-class");
 
-        //coverting data into json value
-        var selectedList=$(this).html();
-        var countList=0;
-        var headerText="";
-        var DropDownList= settings.DropDownList;
-        $(selectedList).each(function() {
-            if($(this).html()){
-                if($(this).hasClass("tree-level-0")){
-                    headerText = $(this).html();
-                    var headerValue = $(this).val();
-                    var headerClass = $(this).attr('class');
-                    var objects  = {
-                        "name" : headerText,
-                        "value" : headerValue,
-                        "className" : headerClass,
-                        [headerText]: [],
-                    }
-                    DropDownList.push(objects);
-                    countList=countList+1;
-                    if(countList >= 1){
-                        countList=0;
-                    }
-                }
-                else {
-                    var optionText= $(this).html();
-                    var optionVal=$(this).val();
-                    var optionClass=$(this).attr('class');
-                    $.each(DropDownList, function( index, value ){
-                        if(value.name===headerText){
-                            var object  = {
-                                "name" : optionText,
-                                "value" : optionVal,
-                                "className": optionClass
-                            }
-                            DropDownList[index][headerText].push(object);
-                        }
-                    });
-                    settings.DropDownList=DropDownList;
-                }
-            }
-        });
-
         //create dropdown
         function createDropdown(data) {
             var inputType= settings.inputType;
@@ -86,7 +44,7 @@
             parentClass=settings.parentClass;
             //checkbox
             if (key==="inputType") {
-                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id=""#'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input class="search-input" placeholder="'+settings.SearchPlaceHolder+'"><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
+                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
             }
             $('.'+parentClass+' .custom-dropdownmenu').append(customDropdown);
@@ -130,6 +88,44 @@
             }
         });
 
+        //search
+        $('#'+settings.renderId+'search').on('change',function(e) {
+            var customDropdown="";
+            var searchText=$(this).val();
+            var list=settings.DropDownList;
+            if(searchText!=="") {
+                var search= list.filter(function (data) {
+                    if (data.name == searchText) {
+                        customDropdown = createDropdown([data])
+                        $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
+
+                    }
+                    else {
+                        data[data.name].filter(function (data) {
+                            if (data.name == searchText) {
+                                var inputType= settings.inputType;
+                                var datalist=[data];
+                                customDropdown = $.each([data], function(k,list) {
+                                    var listData='<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'" /><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>';
+                                    $('.custom-dropdownmenu .collapseContent').html(listData);
+                                });
+                            }
+                            else {
+                                $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html("<div style='text-align: center'>No Data Found</div>");
+                            }
+                        })
+                    }
+
+                })
+            }
+            else {
+                customDropdown = createDropdown(settings.DropDownList)
+
+                $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
+            }
+            e.stopPropagation();
+        });
+
         //multi
         $('.'+settings.parentClass+' .custom-dropdownmenu .addGroupInput').on("change", function() {
             var $inputboxes = $(this).parent().next(".customDropdown-group").find("input");
@@ -139,7 +135,6 @@
                 $inputboxes.prop('checked', false);
             }
         });
-
         $('.'+settings.parentClass+' .custom-dropdownmenu .customDropdown-group input').on("change", function() {
             var $outerdiv = $(this).parent().parent();
             var $inputbox = $outerdiv.find("input");
@@ -160,16 +155,16 @@
                 selectedValue=[];
                 createArray(selectedValue);
                 textAppend(selectedValue);
+                event.stopPropagation();
             });
         }
-
         function createArray(selectedValue){
             var selectedArray=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
                 var text = $(this).next('label').text();
                 var value = $(this).val();
                 var customAppend=('<span class="append-text"><span class="appendText" value="'+value+'">'+text+'</span><button class="select-close-icon" title="'+value+'"><span>X</span></button></span>');
-                selectedArray.push({"name" : text,"value" : value})
+                selectedArray.push(value)
                 if(settings.closeIcon && settings.inputType=="checkbox") {
                     selectedValue.push(customAppend);
                 }
@@ -178,10 +173,10 @@
                 }
 
             });
+            $('#'+settings.renderId).val(selectedArray);
             return selectedValue;
         }
-
-        function textAppend(data){
+        function textAppend(data) {
             if(data.length == 0 ) {
                 $('.'+settings.parentClass+' .multiselect-btn').html("");
             }
@@ -218,6 +213,89 @@
 }( jQuery ));
 
 $( document ).ready(function() {
+
+    //coverting data into json value
+    var selectedList=$('#multiselect').html();
+    var countList=0;
+    var headerText="";
+    var DropDownList=[];
+    $(selectedList).each(function() {
+        if($(this).html()){
+            if($(this).hasClass("tree-level-0")){
+                headerText = $(this).html();
+                var headerValue = $(this).val();
+                var headerClass = $(this).attr('class');
+                var objects  = {
+                    "name" : headerText,
+                    "value" : headerValue,
+                    "className" : headerClass,
+                    [headerText]: [],
+                }
+                DropDownList.push(objects);
+                countList=countList+1;
+                if(countList >= 1){
+                    countList=0;
+                }
+            }
+            else {
+                var optionText= $(this).html();
+                var optionVal=$(this).val();
+                var optionClass=$(this).attr('class');
+                $.each(DropDownList, function( index, value ){
+                    if(value.name===headerText){
+                        var object  = {
+                            "name" : optionText,
+                            "value" : optionVal,
+                            "className": optionClass
+                        }
+                        DropDownList[index][headerText].push(object);
+                    }
+                });
+            }
+        }
+    });
+
+    //coverting data into json value 2
+    var selectedList=$('#multiselect1').html();
+    var countList=0;
+    var headerText="";
+    var DropDownList1=[];
+    $(selectedList).each(function() {
+        if($(this).html()){
+            if($(this).hasClass("tree-level-0")){
+                headerText = $(this).html();
+                var headerValue = $(this).val();
+                var headerClass = $(this).attr('class');
+                var objects  = {
+                    "name" : headerText,
+                    "value" : headerValue,
+                    "className" : headerClass,
+                    [headerText]: [],
+                }
+                DropDownList1.push(objects);
+                countList=countList+1;
+                if(countList >= 1){
+                    countList=0;
+                }
+            }
+            else {
+                var optionText= $(this).html();
+                var optionVal=$(this).val();
+                var optionClass=$(this).attr('class');
+                $.each(DropDownList1, function( index, value ){
+                    if(value.name===headerText){
+                        var object  = {
+                            "name" : optionText,
+                            "value" : optionVal,
+                            "className": optionClass
+                        }
+                        DropDownList1[index][headerText].push(object);
+                    }
+                });
+            }
+        }
+    });
+
     $('#multiselect').customSelect({
         inputType:"checkbox",
         EmptyText: "EmptyText",
@@ -226,6 +304,7 @@ $( document ).ready(function() {
         MultipleSelectText: "Categories",
         SearchPlaceHolder:"search Category",
         closeIcon: true,
+        DropDownList: DropDownList,
     });
     $('#multiselect1').customSelect({
         inputType:"radio",
@@ -234,5 +313,6 @@ $( document ).ready(function() {
         MultipleSelectText: "Categories",
         SearchPlaceHolder:"search Category",
         closeIcon: true,
+        DropDownList: DropDownList1,
     });
 });
