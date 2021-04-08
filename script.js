@@ -11,6 +11,7 @@
             AppendText: false,
             renderId: $(this).attr("id"),
             parentClass: $(this).attr("id")+'DropdownParentId',
+            closeIcon: false
         }, options );
 
         $('#'+settings.renderId).parent().addClass(settings.parentClass);
@@ -61,13 +62,13 @@
         //create dropdown
         function createDropdown(data) {
             var inputType= settings.inputType;
-            var list="<div>";
+            var list="<div class='collapseContent'>";
             $.each(data, function(key,dataList) {
                 var addGroupInput="";
                 if(inputType==="checkbox"){
                     addGroupInput='<input class="addGroupInput" value="'+dataList.value+'" type="checkbox" />';
                 }
-                list=list+'<div class="group-header '+dataList.className+'">'+addGroupInput+'<a class="btn header-label" data-toggle="collapse" data-target="#collapse'+dataList.value+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+dataList.value+settings.renderId+'">'+dataList.name+'</a></div><div class="customDropdown-group collapse" id="collapse'+dataList.value+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
+                list=list+'<div class="group-header '+dataList.className+'">'+addGroupInput+'<a class="btn header-label collapsed" data-toggle="collapse" data-target="#collapse'+dataList.value+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+dataList.value+settings.renderId+'">'+dataList.name+'</a></div><div class="customDropdown-group collapse" id="collapse'+dataList.value+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
                 var listItem="";
 
                 $.each(dataList[dataList.name], function(k,list) {
@@ -93,6 +94,12 @@
 
         var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
 
+        //open first collapse
+        $(".collapseContent").each(function (index) {
+            $(this).find(".customDropdown-group:first").addClass('show');
+            $(this).find(".group-header:first .header-label").removeClass('collapsed');
+        });
+
         //open Dropdown
         $(renderDropdown).on('click', function() {
             $(renderDropdown).addClass('open');
@@ -116,8 +123,6 @@
                 event.stopPropagation();
             }
         });
-
-        //close Dropdown
         $(document).on("click", function(event) {
             if($(renderDropdown) !== event.target && !$(renderDropdown).has(event.target).length) {
                 $(renderDropdown).removeClass('open');
@@ -148,6 +153,16 @@
             }
         });
 
+        function removeSelected(){
+            $('.select-close-icon').on("click", function(event) {
+                var removeVal= $(this).attr('title');
+                $(renderDropdown+' .dropdown-item input[type=checkbox][value='+removeVal+']').prop('checked', false);
+                selectedValue=[];
+                createArray(selectedValue);
+                textAppend(selectedValue);
+            });
+        }
+
         function createArray(selectedValue){
             var selectedArray=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
@@ -155,12 +170,13 @@
                 var value = $(this).val();
                 var customAppend=('<span class="append-text"><span class="appendText" value="'+value+'">'+text+'</span><button class="select-close-icon" title="'+value+'"><span>X</span></button></span>');
                 selectedArray.push({"name" : text,"value" : value})
-                if(settings.inputType==="checkbox") {
+                if(settings.closeIcon && settings.inputType=="checkbox") {
                     selectedValue.push(customAppend);
                 }
                 else {
                     selectedValue.push(text);
                 }
+
             });
             return selectedValue;
         }
@@ -183,16 +199,6 @@
                 $('.'+settings.parentClass+' .category-label').removeClass('has-value');
             }
             return data;
-        }
-
-        function removeSelected(){
-            $('.select-close-icon').on("click", function(event) {
-                var removeVal= $(this).attr('title');
-                $(renderDropdown+' .dropdown-item input[type=checkbox][value='+removeVal+']').prop('checked', false);
-                selectedValue=[];
-                createArray(selectedValue);
-                textAppend(selectedValue);
-            });
         }
 
         //on change input
@@ -219,6 +225,7 @@ $( document ).ready(function() {
         AppendLimit: 2,
         MultipleSelectText: "Categories",
         SearchPlaceHolder:"search Category",
+        closeIcon: true,
     });
     $('#multiselect1').customSelect({
         inputType:"radio",
@@ -226,5 +233,6 @@ $( document ).ready(function() {
         AppendText: true,
         MultipleSelectText: "Categories",
         SearchPlaceHolder:"search Category",
+        closeIcon: true,
     });
 });
