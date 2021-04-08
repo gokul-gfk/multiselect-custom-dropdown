@@ -20,7 +20,7 @@
         //create dropdown
         function createDropdown(data) {
             var inputType= settings.inputType;
-            var list="<div class='collapseContent'>";
+            var list="";
             $.each(data, function(key,dataList) {
                 var addGroupInput="";
                 if(inputType==="checkbox"){
@@ -34,7 +34,6 @@
                 });
                 list=list+listItem+('</div>');
             });
-            list= list+('</div>');
             return list;
         }
 
@@ -44,10 +43,10 @@
             parentClass=settings.parentClass;
             //checkbox
             if (key==="inputType") {
-                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div></div>');
+                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div class="collapseContent"></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
             }
-            $('.'+parentClass+' .custom-dropdownmenu').append(customDropdown);
+            $('.'+parentClass+' .custom-dropdownmenu .collapseContent').append(customDropdown);
         }
 
         var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
@@ -56,36 +55,6 @@
         $(".collapseContent").each(function (index) {
             $(this).find(".customDropdown-group:first").addClass('show');
             $(this).find(".group-header:first .header-label").removeClass('collapsed');
-        });
-
-        //open Dropdown
-        $(renderDropdown).on('click', function() {
-            $(renderDropdown).addClass('open');
-        });
-        $('.'+settings.parentClass+' .custom-dropdown-select .category-label').on('click', function(event) {
-            if($(renderDropdown).hasClass('open')){
-                $(renderDropdown).removeClass('open');
-                $(renderDropdown).removeClass('show');
-                event.stopPropagation();
-            }
-            else{
-                $(renderDropdown).addClass('show');
-            }
-        });
-
-        //close Dropdown
-        $(renderDropdown+' .multiselect-btn').on('click', function(event) {
-            if($(renderDropdown).hasClass('open')){
-                $(renderDropdown).removeClass('open');
-                $(renderDropdown).removeClass('show');
-                event.stopPropagation();
-            }
-        });
-        $(document).on("click", function(event) {
-            if($(renderDropdown) !== event.target && !$(renderDropdown).has(event.target).length) {
-                $(renderDropdown).removeClass('open');
-                $(renderDropdown).removeClass('show');
-            }
         });
 
         //search
@@ -123,6 +92,37 @@
             e.stopPropagation();
         });
 
+
+        //open Dropdown
+        $(renderDropdown).on('click', function() {
+            $(renderDropdown).addClass('open');
+        });
+        $('.'+settings.parentClass+' .custom-dropdown-select .category-label').on('click', function(event) {
+            if($(renderDropdown).hasClass('open')){
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
+                event.stopPropagation();
+            }
+            else{
+                $(renderDropdown).addClass('show');
+            }
+        });
+
+        //close Dropdown
+        $(renderDropdown+' .multiselect-btn').on('click', function(event) {
+            if($(renderDropdown).hasClass('open')){
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
+                event.stopPropagation();
+            }
+        });
+        $(document).on("click", function(event) {
+            if($(renderDropdown) !== event.target && !$(renderDropdown).has(event.target).length) {
+                $(renderDropdown).removeClass('open');
+                $(renderDropdown).removeClass('show');
+            }
+        });
+
         //multi
         $('.'+settings.parentClass+' .custom-dropdownmenu .addGroupInput').on("change", function() {
             var $inputboxes = $(this).parent().next(".customDropdown-group").find("input");
@@ -148,7 +148,7 @@
         function removeSelected(){
             $('.select-close-icon').on("click", function(event) {
                 var removeVal= $(this).attr('title');
-                $(renderDropdown+' .dropdown-item input[type=checkbox][value='+removeVal+']').prop('checked', false);
+                $(renderDropdown+' .dropdown-item input[value='+removeVal+']').prop('checked', false);
                 selectedValue=[];
                 createArray(selectedValue);
                 textAppend(selectedValue);
@@ -162,7 +162,7 @@
                 var value = $(this).val();
                 var customAppend=('<span class="append-text"><span class="appendText" value="'+value+'">'+text+'</span><button class="select-close-icon" title="'+value+'"><span>X</span></button></span>');
                 selectedArray.push(value)
-                if(settings.closeIcon && settings.inputType=="checkbox") {
+                if(settings.closeIcon) {
                     selectedValue.push(customAppend);
                 }
                 else {
@@ -194,7 +194,7 @@
         }
 
         //on change input
-        $(renderDropdown+' input').on("change",function() {
+        $(renderDropdown+' .collapseContent input').on("change",function() {
             var selectedValue=settings.selectedArray;
             selectedValue=[];
             createArray(selectedValue);
