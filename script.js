@@ -113,17 +113,9 @@
             list=$(this).parent().parent().find(".collapseContent .dropdown-item");
             headerList=$(this).parent().parent().find(".collapseContent .header-label");
             if(searchText!=="") {
-                list.each(function (i, obj) {
-                    var dataName = $(this).find('label').text().toLowerCase();
-                    if(searchText.match(dataName)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
                 headerList.each(function (i, obj) {
                     var headerName = $(this).text().toLowerCase();
-                    if(searchText.match(headerName)) {
+                    if(headerName.indexOf(searchText)>-1) {
                         $(this).parent().show();
                         $(this).parent().next().find(".dropdown-item").each(function (i,j) {
                             $(this).show();
@@ -133,12 +125,34 @@
                         $(this).parent().hide();
                     }
                 });
+                list.each(function (i, obj) {
+                    var dataName = $(this).find('label').text().toLowerCase();
+                    if(dataName.indexOf(searchText) > -1) {
+                        $(this).show();
+                        $(this).parent().prev().show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                headerList.each(function (i, obj) {
+                    var headerName = $(this).text().toLowerCase();
+                    if(headerName.indexOf(searchText)>-1) {
+                        $(this).parent().show();
+                        $(this).parent().next().find(".dropdown-item").each(function (i,j) {
+                            $(this).show();
+                        })
+                    }
+                    else {
+                        $(this).parent().find("input").hide();
+                    }
+                });
             } else {
                 list.each(function (i, obj) {
                     $(this).show();
                 });
                 headerList.each(function (i, obj) {
                     $(this).parent().show();
+                    $(this).parent().find("input").show();
                 });
             }
             e.stopPropagation();
