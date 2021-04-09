@@ -184,6 +184,8 @@
             }
             else {
                 $('.'+settings.parentClass+' .multiselect-btn').html(data.join(", "));
+                removeSelected();
+
             }
             //add class to label
             if(!data.length == 0) {
@@ -205,7 +207,6 @@
                 textAppend(selectedValue);
             }
             //remove selected
-            removeSelected();
         });
         return this;
     };
