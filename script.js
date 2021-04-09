@@ -138,6 +138,7 @@
                     var headerName = $(this).text().toLowerCase();
                     if(headerName.indexOf(searchText)>-1) {
                         $(this).parent().show();
+                        $(this).parent().find("input").show();
                         $(this).parent().next().find(".dropdown-item").each(function (i,j) {
                             $(this).show();
                         })
