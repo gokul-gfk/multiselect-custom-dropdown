@@ -41,7 +41,6 @@
         for (var key in options){
             var customDropdown="";
             parentClass=settings.parentClass;
-            //checkbox
             if (key==="inputType") {
                 $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div class="collapseContent"></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
@@ -60,11 +59,12 @@
         //search option
         $('#'+settings.renderId+'search').keyup(function(e) {
             var searchText=$(this).val().toLowerCase();
-            list=$('.collapseContent .dropdown-item');
-            headerList=$('.collapseContent .header-label');
+            list=$(this).parent().parent().find('.collapseContent .dropdown-item');
+            headerList=$(this).parent().parent().find('.collapseContent .header-label');
             if(searchText!=="") {
                 list.each(function (i, obj) {
                     var dataName = $(this).find('label').text().toLowerCase();
+                    //console.log($(this).html())
                     if(searchText.match(dataName)) {
                         $(this).show();
                     } else {
@@ -73,6 +73,7 @@
                 });
                 headerList.each(function (i, obj) {
                     var headerName = $(this).text().toLowerCase();
+                    //console.log($(this).html())
                     if(searchText.match(headerName)) {
                         $(this).parent().show();
                         $(this).parent().next().find('.dropdown-item').each(function (i,j) {
