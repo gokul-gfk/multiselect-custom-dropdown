@@ -3,7 +3,7 @@
         // Default options
         var settings = $.extend({
             btnPlaceholder: "DropDown",
-            MultipleSelectText: "",
+            AppendLimitText: "selected",
             SearchPlaceHolder: "Search",
             AppendLimit: 2,
             DropDownList: [],
@@ -28,7 +28,6 @@
                 }
                 list=list+'<div class="group-header '+dataList.className+'">'+addGroupInput+'<a class="btn header-label collapsed" data-toggle="collapse" data-target="#collapse'+dataList.value+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+dataList.value+settings.renderId+'">'+dataList.name+'</a></div><div class="customDropdown-group collapse" id="collapse'+dataList.value+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
                 var listItem="";
-
                 $.each(dataList[dataList.name], function(k,list) {
                     listItem=listItem+('<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'" /><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>');
                 });
@@ -54,43 +53,6 @@
         $('.collapseContent').each(function (index) {
             $(this).find(".customDropdown-group:first").addClass('show');
             $(this).find('.group-header:first .header-label').removeClass('collapsed');
-        });
-
-        //search option
-        $('#'+settings.renderId+'search').keyup(function(e) {
-            var searchText=$(this).val().toLowerCase();
-            list=$(this).parent().parent().find(".collapseContent .dropdown-item");
-            headerList=$(this).parent().parent().find(".collapseContent .header-label");
-            if(searchText!=="") {
-                list.each(function (i, obj) {
-                    var dataName = $(this).find('label').text().toLowerCase();
-                    if(searchText.match(dataName)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                headerList.each(function (i, obj) {
-                    var headerName = $(this).text().toLowerCase();
-                    if(searchText.match(headerName)) {
-                        $(this).parent().show();
-                        $(this).parent().next().find(".dropdown-item").each(function (i,j) {
-                            $(this).show();
-                        })
-                    }
-                    else {
-                        $(this).parent().hide();
-                    }
-                });
-            } else {
-                list.each(function (i, obj) {
-                    $(this).show();
-                });
-                headerList.each(function (i, obj) {
-                    $(this).parent().show();
-                });
-            }
-            e.stopPropagation();
         });
 
         //open Dropdown
@@ -145,7 +107,44 @@
             }
         });
 
-        function removeSelected(){
+        //search option
+        $('#'+settings.renderId+'search').keyup(function(e) {
+            var searchText=$(this).val().toLowerCase();
+            list=$(this).parent().parent().find(".collapseContent .dropdown-item");
+            headerList=$(this).parent().parent().find(".collapseContent .header-label");
+            if(searchText!=="") {
+                list.each(function (i, obj) {
+                    var dataName = $(this).find('label').text().toLowerCase();
+                    if(searchText.match(dataName)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                headerList.each(function (i, obj) {
+                    var headerName = $(this).text().toLowerCase();
+                    if(searchText.match(headerName)) {
+                        $(this).parent().show();
+                        $(this).parent().next().find(".dropdown-item").each(function (i,j) {
+                            $(this).show();
+                        })
+                    }
+                    else {
+                        $(this).parent().hide();
+                    }
+                });
+            } else {
+                list.each(function (i, obj) {
+                    $(this).show();
+                });
+                headerList.each(function (i, obj) {
+                    $(this).parent().show();
+                });
+            }
+            e.stopPropagation();
+        });
+
+        function removeSelected() {
             $('.select-close-icon').on("click", function(event) {
                 var removeVal= $(this).attr('title');
                 $(renderDropdown+' .dropdown-item input[value='+removeVal+']').prop('checked', false);
@@ -155,6 +154,8 @@
                 event.stopPropagation();
             });
         }
+
+        //creating array 
         function createArray(selectedValue){
             var selectedArray=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
@@ -177,7 +178,7 @@
                 $('.'+settings.parentClass+' .multiselect-btn').html("");
             }
             else if(data.length > settings.AppendLimit) {
-                $('.'+settings.parentClass+' .multiselect-btn').text(data.length+' '+settings.MultipleSelectText);
+                $('.'+settings.parentClass+' .multiselect-btn').text(data.length+' '+settings.AppendLimitText);
             }
             else {
                 $('.'+settings.parentClass+' .multiselect-btn').html(data.join(", "));
@@ -297,7 +298,7 @@ $( document ).ready(function() {
         EmptyText: "EmptyText",
         AppendText: true,
         AppendLimit: 2,
-        MultipleSelectText: "Categories",
+        AppendLimitText: "Categories",
         SearchPlaceHolder:"search Category",
         closeIcon: true,
         DropDownList: DropDownList,
@@ -306,9 +307,9 @@ $( document ).ready(function() {
         inputType:"radio",
         EmptyText: "EmptyText",
         AppendText: true,
-        MultipleSelectText: "Categories",
+        AppendLimitText: "Categories",
         SearchPlaceHolder:"search Category",
-        closeIcon: true,
+        closeIcon: false,
         DropDownList: DropDownList1,
     });
 });
