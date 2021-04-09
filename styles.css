@@ -127,7 +127,7 @@ body {
  .custom-dropdown-select .custom-dropdownmenu .dropdown-item {
 	 height: 45px;
 	 margin-bottom: 5px;
-	 padding-left: 35px;
+	 padding: 0 0 0 35px;
 	 display: flex;
 	 align-items: center;
 	 border-radius: 5px;
