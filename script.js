@@ -155,7 +155,7 @@
             });
         }
 
-        //creating array 
+        //creating array
         function createArray(selectedValue){
             var selectedArray=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
@@ -295,7 +295,6 @@ $( document ).ready(function() {
 
     $('#multiselect').customSelect({
         inputType:"checkbox",
-        EmptyText: "EmptyText",
         AppendText: true,
         AppendLimit: 2,
         AppendLimitText: "Categories",
@@ -305,11 +304,9 @@ $( document ).ready(function() {
     });
     $('#multiselect1').customSelect({
         inputType:"radio",
-        EmptyText: "EmptyText",
         AppendText: true,
-        AppendLimitText: "Categories",
         SearchPlaceHolder:"search Category",
-        closeIcon: false,
+        closeIcon: true,
         DropDownList: DropDownList1,
     });
 });
