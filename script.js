@@ -11,11 +11,11 @@
             AppendText: false,
             renderId: $(this).attr("id"),
             parentClass: $(this).attr("id")+'DropdownParentId',
-            closeIcon: false
+            closeIcon: false,
         }, options );
 
         $('#'+settings.renderId).wrap('<div class="'+settings.parentClass+'"></div>');
-        $('#'+settings.renderId).addClass("hide-class");
+        $('#'+settings.renderId).hide();
 
         //create dropdown
         function createDropdown(data) {
@@ -23,7 +23,7 @@
             var list="";
             $.each(data, function(key,dataList) {
                 var addGroupInput="";
-                if(inputType==="checkbox"){
+                if(inputType==="checkbox") {
                     addGroupInput='<input class="addGroupInput" value="'+dataList.value+'" type="checkbox" />';
                 }
                 list=list+'<div class="group-header '+dataList.className+'">'+addGroupInput+'<a class="btn header-label collapsed" data-toggle="collapse" data-target="#collapse'+dataList.value+settings.renderId+'" aria-expanded="false" aria-controls="dataTarget'+dataList.value+settings.renderId+'">'+dataList.name+'</a></div><div class="customDropdown-group collapse" id="collapse'+dataList.value+settings.renderId+'" aria-labelledby="#heading'+key+settings.renderId+'">';
@@ -38,10 +38,10 @@
         }
 
         // Apply options
-        for (var key in options){
+        for (var key in options) {
             var customDropdown="";
             parentClass=settings.parentClass;
-            if (key==="inputType") {
+            if (key==="DropDownList") {
                 $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div class="collapseContent"></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
             }
@@ -51,20 +51,19 @@
         var renderDropdown = ('.'+settings.parentClass+' .custom-dropdownmenu');
 
         //open first collapse
-        $(".collapseContent").each(function (index) {
+        $('.collapseContent').each(function (index) {
             $(this).find(".customDropdown-group:first").addClass('show');
-            $(this).find(".group-header:first .header-label").removeClass('collapsed');
+            $(this).find('.group-header:first .header-label').removeClass('collapsed');
         });
 
         //search option
         $('#'+settings.renderId+'search').keyup(function(e) {
             var searchText=$(this).val().toLowerCase();
-            list=$(this).parent().parent().find('.collapseContent .dropdown-item');
-            headerList=$(this).parent().parent().find('.collapseContent .header-label');
+            list=$(this).parent().parent().find(".collapseContent .dropdown-item");
+            headerList=$(this).parent().parent().find(".collapseContent .header-label");
             if(searchText!=="") {
                 list.each(function (i, obj) {
                     var dataName = $(this).find('label').text().toLowerCase();
-                    //console.log($(this).html())
                     if(searchText.match(dataName)) {
                         $(this).show();
                     } else {
@@ -73,10 +72,9 @@
                 });
                 headerList.each(function (i, obj) {
                     var headerName = $(this).text().toLowerCase();
-                    //console.log($(this).html())
                     if(searchText.match(headerName)) {
                         $(this).parent().show();
-                        $(this).parent().next().find('.dropdown-item').each(function (i,j) {
+                        $(this).parent().next().find(".dropdown-item").each(function (i,j) {
                             $(this).show();
                         })
                     }
@@ -170,7 +168,6 @@
                 else {
                     selectedValue.push(text);
                 }
-
             });
             $('#'+settings.renderId).val(selectedArray);
             return selectedValue;
@@ -184,8 +181,8 @@
             }
             else {
                 $('.'+settings.parentClass+' .multiselect-btn').html(data.join(", "));
+                //remove selected
                 removeSelected();
-
             }
             //add class to label
             if(!data.length == 0) {
@@ -206,7 +203,6 @@
             if(settings.AppendText) {
                 textAppend(selectedValue);
             }
-            //remove selected
         });
         return this;
     };
