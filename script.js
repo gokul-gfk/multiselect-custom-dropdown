@@ -57,41 +57,43 @@
             $(this).find(".group-header:first .header-label").removeClass('collapsed');
         });
 
-        //search
+        //search option
         $('#'+settings.renderId+'search').keyup(function(e) {
             var customDropdown="";
             var searchText=$(this).val().toLowerCase();
-            var list=settings.DropDownList;
+            list=$('.collapseContent .dropdown-item');
+            headerList=$('.collapseContent .header-label');
             if(searchText!=="") {
-                var search= list.filter(function (data) {
-                    var dataName = data.name.toLowerCase();
-                    if (dataName.match(searchText)) {
-                        customDropdown = createDropdown([data]);
-                        $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
+                list.each(function (i, obj) {
+                    var dataName = $(this).find('label').text().toLowerCase();
+                    if(searchText.match(dataName)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
                     }
-                    else {
-                        data[data.name].filter(function (data) {
-                            var dataName = data.name.toLowerCase();
-                            if (dataName.match(searchText)) {
-                                var inputType= settings.inputType;
-                                var datalist=[data];
-                                customDropdown = $.each([data], function(k,list) {
-                                    var listData='<a class="dropdown-item '+list.className+'"><input id="'+inputType+list.value+settings.renderId+'" name="dropdown-input" type="'+inputType+'" value="'+list.value+'" /><label for="'+inputType+list.value+settings.renderId+'">'+list.name+'</label></a>';
-                                    $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(listData);
-                                });
-                            }
+                });
+                headerList.each(function (i, obj) {
+                    var headerName = $(this).text().toLowerCase();
+                    if(searchText.match(headerName)) {
+                        $(this).parent().show();
+                        $(this).parent().next().find('.dropdown-item').each(function (i,j) {
+                            $(this).show();
                         })
                     }
-
-                })
-            }
-            else {
-                customDropdown = createDropdown(settings.DropDownList)
-                $('.'+settings.parentClass+' .custom-dropdownmenu .collapseContent').html(customDropdown);
+                    else {
+                        $(this).parent().hide();
+                    }
+                });
+            } else {
+                list.each(function (i, obj) {
+                    $(this).show();
+                });
+                headerList.each(function (i, obj) {
+                    $(this).parent().show();
+                });
             }
             e.stopPropagation();
         });
-
 
         //open Dropdown
         $(renderDropdown).on('click', function() {
