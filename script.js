@@ -61,8 +61,8 @@
         $('#'+settings.renderId+'search').keyup(function(e) {
             var customDropdown="";
             var searchText=$(this).val().toLowerCase();
-            list=$('.collapseContent .dropdown-item');
-            headerList=$('.collapseContent .header-label');
+            list=$('.'+parentClass+' .collapseContent .dropdown-item');
+            headerList=$('.'+parentClass+' .collapseContent .header-label');
             if(searchText!=="") {
                 list.each(function (i, obj) {
                     var dataName = $(this).find('label').text().toLowerCase();
