@@ -90,8 +90,10 @@
             var $inputboxes = $(this).parent().next(".customDropdown-group").find("input");
             if ($(this).prop('checked')) {
                 $inputboxes.prop('checked', true);
+                $inputboxes.parent().addClass('checkedList');
             } else {
                 $inputboxes.prop('checked', false);
+                $inputboxes.parent().removeClass('checkedList');
             }
         });
         $('.'+settings.parentClass+' .custom-dropdownmenu .customDropdown-group input').on("change", function() {
@@ -163,6 +165,7 @@
             $('.select-close-icon').on("click", function(event) {
                 var removeVal= $(this).attr('title');
                 $(renderDropdown+' .dropdown-item input[value='+removeVal+']').prop('checked', false);
+                $(renderDropdown+' .dropdown-item input[value='+removeVal+']').parent().removeClass('checkedList');
                 selectedValue=[];
                 createArray(selectedValue);
                 textAppend(selectedValue);
@@ -220,6 +223,18 @@
                 textAppend(selectedValue);
             }
         });
+
+        //on add class while input checked
+        $(renderDropdown+' .dropdown-item input').on("change",function() {
+            $.each($(renderDropdown+' .dropdown-item'), function() {
+                if($(this).find('input').is(":checked")) {
+                    $(this).addClass('checkedList');
+                }
+                else{
+                    $(this).removeClass('checkedList');
+                }
+            });
+        })
         return this;
     };
 }( jQuery ));
@@ -313,14 +328,14 @@ $( document ).ready(function() {
         AppendText: true,
         AppendLimit: 2,
         AppendLimitText: "Categories",
-        SearchPlaceHolder:"search Category",
+        SearchPlaceHolder:"Search Categories",
         closeIcon: true,
         DropDownList: DropDownList,
     });
     $('#multiselect1').customSelect({
         inputType:"radio",
         AppendText: true,
-        SearchPlaceHolder:"search Category",
+        SearchPlaceHolder:"Search Categories",
         closeIcon: true,
         DropDownList: DropDownList1,
     });
