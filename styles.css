@@ -165,7 +165,6 @@
  .custom-dropdown-select .custom-dropdownmenu .dropdown-item input {
 	 height: 25px;
 	 width: 25px;
-	 margin-right: 10px;
 	 opacity: 1;
 	 left: unset;
 	 position: unset;
@@ -174,7 +173,7 @@
  .custom-dropdown-select .custom-dropdownmenu .dropdown-item label {
 	 display: flex;
 	 flex-grow: 1;
-	 padding: 10px 10px 10px 0;
+	 padding: 10px;
 	 margin: 0;
 	 cursor: pointer;
 }
