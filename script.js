@@ -199,7 +199,7 @@
                 $('.'+settings.parentClass+' .multiselect-btn').text(data.length+' '+settings.AppendLimitText);
             }
             else {
-                $('.'+settings.parentClass+' .multiselect-btn').html(data.join(", "));
+                $('.'+settings.parentClass+' .multiselect-btn').html(data);
                 //remove selected
                 removeSelected();
             }

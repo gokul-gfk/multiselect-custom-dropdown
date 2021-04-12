@@ -186,7 +186,7 @@
 }
  .append-text {
 	 display: flex;
-	 append-text: 10px;
+	 padding-right: 10px;
  }
  .select-close-icon {
 	height: 20px;
