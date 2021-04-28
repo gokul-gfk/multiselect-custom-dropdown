@@ -1,16 +1,16 @@
 <!DOCTYPE html>
   <html>
     <head>
-      <link rel="stylesheet" type="text/css" href="styles.css">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="./styles.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script type="text/javascript" src="script.js"></script>
+      <script type="text/javascript" src="./script.js"></script>
     </head>
-    <body>  
-      <div style="display:flex; justify-content: center; margin: 20px auto; ">
-        <div class="hide-dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
-          <div class="dropdown-menu" id="cd1" aria-labelledby="dropdownMenuButton">
+    <body>
+    <div style="display:flex; justify-content: center; margin: 20px auto; ">
+        <select class="multiselect" id="multiselect" aria-labelledby="dropdownMenuButton" multiple>
             <option class="tree-level-0" value="1">Serious</option>
             <option class="tree-level-1" value="2">Shooting</option>
             <option class="tree-level-1" value="3">Explosion</option>
@@ -18,14 +18,14 @@
             <option class="tree-level-1" value="5">Criminal</option>
             <option class="tree-level-1" value="6">Public Unrest</option>
             <option class="tree-level-0" value="7">Security</option>
-            <option class="tree-level-1" value="8">Check Point</option> 
+            <option class="tree-level-1" value="8">Check Point</option>
             <option class="tree-level-2" value="9">Police</option>
             <option class="tree-level-2" value="10">Security Agency</option>
             <option class="tree-level-2" value="11">Army</option>
-            <option class="tree-level-2" value="12">Militia</option> 
-            <option class="tree-level-2" value="13">Criminal</option> 
+            <option class="tree-level-2" value="12">Militia</option>
+            <option class="tree-level-2" value="13">Criminal</option>
             <option class="tree-level-1" value="14">Security Forces</option>
-            <option class="tree-level-2" value="15">Police station</option> 
+            <option class="tree-level-2" value="15">Police station</option>
             <option class="tree-level-2" value="16">Armed forces location</option>
             <option class="tree-level-2" value="17">Militia</option>
             <option class="tree-level-1" value="18">Mine field/UXO</option>
@@ -35,7 +35,7 @@
             <option class="tree-level-1" value="22">Heavy traffic</option>
             <option class="tree-level-2" value="23">Slow</option>
             <option class="tree-level-2" value="24">Stopped</option>
-            <option class="tree-level-1" value="25">Road works</option> 
+            <option class="tree-level-1" value="25">Road works</option>
             <option class="tree-level-2" value="26">Slow</option>
             <option class="tree-level-2" value="27">Stopped</option>
             <option class="tree-level-1" value="28">Poor Road Condition</option>
@@ -43,51 +43,47 @@
             <option class="tree-level-2" value="30">Road Blocked</option>
             <option class="tree-level-2" value="31">Road Open</option>
             <option class="tree-level-1" value="32">Near miss (user almost crashed)</option>
-          </div>
-        </div>
-        <div id="multiselect" class="custom-dropdown"></div>
-      </div>
+        </select>
+    </div>
+    <div style="display:flex; justify-content: left; margin: 20px auto; ">
+        <select class="multiselect1" id="multiselect1" aria-labelledby="dropdownMenuButton" multiple>
+            <option class="tree-level-0" value="1">Serious</option>
+            <option class="tree-level-1" value="2">Shooting</option>
+            <option class="tree-level-1" value="3">Explosion</option>
+            <option class="tree-level-1" value="4">Attack</option>
+            <option class="tree-level-1" value="5">Criminal</option>
+            <option class="tree-level-1" value="6">Public Unrest</option>
+            <option class="tree-level-0" value="7">Security</option>
+            <option class="tree-level-1" value="8">Check Point</option>
+            <option class="tree-level-2" value="9">Police</option>
+            <option class="tree-level-2" value="10">Security Agency</option>
+            <option class="tree-level-2" value="11">Army</option>
+            <option class="tree-level-2" value="12">Militia</option>
+            <option class="tree-level-2" value="13">Criminal</option>
+            <option class="tree-level-1" value="14">Security Forces</option>
+            <option class="tree-level-2" value="15">Police station</option>
+            <option class="tree-level-2" value="16">Armed forces location</option>
+            <option class="tree-level-2" value="17">Militia</option>
+            <option class="tree-level-1" value="18">Mine field/UXO</option>
+            <option class="tree-level-1" value="19">Public Disturbance</option>
+            <option class="tree-level-0" value="20">Traffic</option>
+            <option class="tree-level-1" value="21">Road blocked</option>
+            <option class="tree-level-1" value="22">Heavy traffic</option>
+            <option class="tree-level-2" value="23">Slow</option>
+            <option class="tree-level-2" value="24">Stopped</option>
+            <option class="tree-level-1" value="25">Road works</option>
+            <option class="tree-level-2" value="26">Slow</option>
+            <option class="tree-level-2" value="27">Stopped</option>
+            <option class="tree-level-1" value="28">Poor Road Condition</option>
+            <option class="tree-level-1" value="29">Accident</option>
+            <option class="tree-level-2" value="30">Road Blocked</option>
+            <option class="tree-level-2" value="31">Road Open</option>
+            <option class="tree-level-1" value="32">Near miss (user almost crashed)</option>
+        </select>
+    </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script>
-	$( document ).ready(function() {
-	  //coverting data into json value
-	  var countList=0;
-	  var DropDownList=[];
-	  var currentName="";
-	  $("#cd1 option").each(function() {
-	    if($(this).hasClass("tree-level-0")){  
-	      currentName = $(this).html();
-	      var object  = {
-	        "name" : currentName,
-	        "value" : $(this).val(),
-	        "className" : $(this).attr('class'),
-	        [currentName]:[]
-	      }
-	      DropDownList.push(object);
-	      countList=countList+1;
-	      if(countList >= 1){
-	        countList=0;
-	      } 
-	    }
-	    else {
-	      var curOpion= $(this).html();
-	      var curVal=$(this).val();
-	      var curClass=$(this).attr('class');
-	      $.each(DropDownList, function( index, value ){
-	        if(value.name===currentName){
-	          var object  = {
-	            "name" : curOpion,
-	            "value" : curVal,
-        	    "className": curClass
-            	  }	
-            	  DropDownList[index].[value.name].push(object);
-          	}
-              });        
-      	    }
-    	  });
-    	  $('#multiselect').customSelect({renderId: "multiselect", DropDownList: DropDownList, SearchPlaceHolder: "search Category",inputType: "checkbox",});
-	});
       </script>
     </body>
 </html>
