@@ -7,3 +7,4 @@ It contains dropdown group with Accordion(collapse).
 has two types of input
   * checkbox
   * radio
+[demo](https://gokul-gfk.github.io/multiselect-custom-dropdown-1/)
