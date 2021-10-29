@@ -196,7 +196,7 @@
                 $('.'+settings.parentClass+' .multiselect-btn').html("");
             }
             else if(data.length > settings.AppendLimit) {
-                $('.'+settings.parentClass+' .multiselect-btn').text(data.length+' '+settings.AppendLimitText);
+                $('.'+settings.parentClass+' .multiselect-btn').html('<span class="append-text">' + data.length + ' ' + settings.AppendLimitText +'</span>');
             }
             else {
                 $('.'+settings.parentClass+' .multiselect-btn').html(data);
