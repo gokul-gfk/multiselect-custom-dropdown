@@ -9,3 +9,4 @@ It contains dropdown group with Accordion(collapse).
 has two types of input
   * checkbox
   * radio
+with filter option by group or child directly
