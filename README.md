@@ -1,5 +1,5 @@
-# multiselect-custom-dropdown-1
-[demo](https://gokul-gfk.github.io/multiselect-custom-dropdown-1/)
+# multiselect-custom-dropdown
+[demo](https://gokul-gfk.github.io/multiselect-custom-dropdown/)
 
 
 created using Bootstrap and jquery
