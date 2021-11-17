@@ -41,7 +41,7 @@
             var customDropdown="";
             parentClass=settings.parentClass;
             if (key==="DropDownList") {
-                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnPlaceholder+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div class="collapseContent"></div></div>');
+                $('.'+parentClass).append('<div class="custom-dropdown-select"><label class="category-label" for="multiselect">'+settings.btnLabel+'</label><span class="multiselect-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="'+settings.renderId+'DropDownButton"></span><div class="dropdown-menu custom-dropdownmenu"><div class="input-group"><input type="search" id="'+settings.renderId+'search" class="search-input" placeholder="'+settings.SearchPlaceHolder+'" /><span class="input-group-addon input-group-addon-btn bg-white"></span></div><div class="collapseContent"></div></div>');
                 customDropdown = createDropdown(settings.DropDownList);
             }
             $('.'+parentClass+' .custom-dropdownmenu .collapseContent').append(customDropdown);
@@ -324,9 +324,9 @@ $( document ).ready(function() {
     });
 
     $('#multiselect').customSelect({
-        btnLabel: "Filters",
         inputType:"checkbox",
         AppendText: true,
+        btnLabel:checkboxFilter,
         AppendLimit: 2,
         AppendLimitText: "Categories",        
         SearchPlaceHolder:"Search Categories",
@@ -335,6 +335,7 @@ $( document ).ready(function() {
         onSelectFunction: function (a) {},
     });
     $('#multiselect1').customSelect({
+        btnLabel:radioFilter,
         inputType:"radio",
         AppendText: true,
         SearchPlaceHolder:"Search Categories",
