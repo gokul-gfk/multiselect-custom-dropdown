@@ -1,4 +1,6 @@
-
+ body {
+	 font-family: 'Inter', sans-serif!important;
+ }
 .custom-dropdown-select {
   position: relative;
   .category-label {
