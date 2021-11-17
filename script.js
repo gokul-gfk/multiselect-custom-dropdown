@@ -255,3 +255,105 @@
         return this;
     };
 }(jQuery));
+
+$( document ).ready(function() {
+
+    //coverting data into json value
+    var selectedList=$('#multiselect').html();
+    var countList=0;
+    var headerText="";
+    var DropDownList=[];
+    $(selectedList).each(function() {
+        if($(this).html()){
+            if($(this).hasClass("tree-level-0")){
+                headerText = $(this).html();
+                var headerValue = $(this).val();
+                var headerClass = $(this).attr('class');
+                var objects  = {
+                    "name" : headerText,
+                    "value" : headerValue,
+                    "className" : headerClass,
+                    [headerText]: [],
+                }
+                DropDownList.push(objects);
+                countList=countList+1;
+                if(countList >= 1){
+                    countList=0;
+                }
+            }
+            else {
+                var optionText= $(this).html();
+                var optionVal=$(this).val();
+                var optionClass=$(this).attr('class');
+                $.each(DropDownList, function( index, value ){
+                    if(value.name===headerText){
+                        var object  = {
+                            "name" : optionText,
+                            "value" : optionVal,
+                            "className": optionClass
+                        }
+                        DropDownList[index][headerText].push(object);
+                    }
+                });
+            }
+        }
+    });
+
+    //coverting data into json value 2
+    var selectedList=$('#multiselect1').html();
+    var countList=0;
+    var headerText="";
+    var DropDownList1=[];
+    $(selectedList).each(function() {
+        if($(this).html()){
+            if($(this).hasClass("tree-level-0")){
+                headerText = $(this).html();
+                var headerValue = $(this).val();
+                var headerClass = $(this).attr('class');
+                var objects  = {
+                    "name" : headerText,
+                    "value" : headerValue,
+                    "className" : headerClass,
+                    [headerText]: [],
+                }
+                DropDownList1.push(objects);
+                countList=countList+1;
+                if(countList >= 1){
+                    countList=0;
+                }
+            }
+            else {
+                var optionText= $(this).html();
+                var optionVal=$(this).val();
+                var optionClass=$(this).attr('class');
+                $.each(DropDownList1, function( index, value ){
+                    if(value.name===headerText){
+                        var object  = {
+                            "name" : optionText,
+                            "value" : optionVal,
+                            "className": optionClass
+                        }
+                        DropDownList1[index][headerText].push(object);
+                    }
+                });
+            }
+        }
+    });
+
+    $('#multiselect').customSelect({
+        inputType:"checkbox",
+        AppendText: true,
+        AppendLimit: 2,
+        AppendLimitText: "Categories",
+        SearchPlaceHolder:"Search Categories",
+        closeIcon: true,
+        DropDownList: DropDownList,
+    });
+    $('#multiselect1').customSelect({
+        inputType:"radio",
+        AppendText: true,
+        SearchPlaceHolder:"Search Categories",
+        closeIcon: true,
+        DropDownList: DropDownList1,
+    });
+});
