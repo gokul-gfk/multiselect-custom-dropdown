@@ -326,7 +326,7 @@ $( document ).ready(function() {
     $('#multiselect').customSelect({
         inputType:"checkbox",
         AppendText: true,
-        btnLabel:checkboxFilter,
+        btnLabel:"checkboxFilter",
         AppendLimit: 2,
         AppendLimitText: "Categories",        
         SearchPlaceHolder:"Search Categories",
@@ -335,7 +335,7 @@ $( document ).ready(function() {
         onSelectFunction: function (a) {},
     });
     $('#multiselect1').customSelect({
-        btnLabel:radioFilter,
+        btnLabel:"radioFilter",
         inputType:"radio",
         AppendText: true,
         SearchPlaceHolder:"Search Categories",
