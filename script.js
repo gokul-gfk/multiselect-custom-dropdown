@@ -2,7 +2,7 @@
     $.fn.customSelect = function(options) {
         // Default options
         var settings = $.extend({
-            btnLabel: "DropDown",
+            btnPlaceholder: "DropDown",
             AppendLimitText: "selected",
             SearchPlaceHolder: "Search",
             AppendLimit: 2,
