@@ -341,13 +341,15 @@ $( document ).ready(function() {
     });
 
     $('#multiselect').customSelect({
+        btnLabel: "Filters",
         inputType:"checkbox",
         AppendText: true,
         AppendLimit: 2,
-        AppendLimitText: "Categories",
+        AppendLimitText: "Categories",        
         SearchPlaceHolder:"Search Categories",
         closeIcon: true,
         DropDownList: DropDownList,
+        onSelectFunction: function (a) {},
     });
     $('#multiselect1').customSelect({
         inputType:"radio",
