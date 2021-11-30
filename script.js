@@ -59,14 +59,15 @@
         $(renderDropdown).on('click', function() {
             $(renderDropdown).addClass('open');
         });
-        $('.'+settings.parentClass+' .custom-dropdown-select .category-label').on('click', function(event) {
-            if($(renderDropdown).hasClass('open')){
+        $('.' + settings.parentClass + ' .custom-dropdown-select .category-label').on('click', function(event) {
+            if($(renderDropdown).hasClass('open')) {
                 $(renderDropdown).removeClass('open');
                 $(renderDropdown).removeClass('show');
                 event.stopPropagation();
-            }
-            else{
+            } else {
+                $(renderDropdown).addClass('open');
                 $(renderDropdown).addClass('show');
+                event.stopPropagation();
             }
         });
 
@@ -79,7 +80,7 @@
             }
         });
         $(document).on("click", function(event) {
-            if($(renderDropdown) !== event.target && !$(renderDropdown).has(event.target).length) {
+            if((!$(event.target).closest(renderDropdown).length) && ($(renderDropdown).hasClass('open')||$(renderDropdown).hasClass('show'))){
                 $(renderDropdown).removeClass('open');
                 $(renderDropdown).removeClass('show');
             }
