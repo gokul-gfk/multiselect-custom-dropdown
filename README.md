@@ -11,7 +11,7 @@ has two types of input
   * radio
 with filter option by group or child directly
 
-#Via JavaScript
+## Via JavaScript
 ```
   //for checkbox button options
   $('#multiselect').customSelect({
@@ -37,3 +37,12 @@ with filter option by group or child directly
     });
 });
 ```
+
+## Options
+ - btnLabel 
+ - AppendLimitText
+ - SearchPlaceHolder 
+ - AppendLimit 
+ - DropDownListselectedArray 
+ - AppendText 
+ - closeIcon: false,
