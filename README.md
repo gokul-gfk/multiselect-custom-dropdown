@@ -45,4 +45,4 @@ with filter option by group or child directly
  - AppendLimit 
  - DropDownListselectedArray 
  - AppendText 
- - closeIcon: false,
+ - closeIcon,
