@@ -13,6 +13,7 @@ with filter option by group or child directly
 
 #Via JavaScript
 ```
+  //for checkbox button options
   $('#multiselect').customSelect({
         inputType:"checkbox",
         AppendText: true,
@@ -24,6 +25,8 @@ with filter option by group or child directly
         DropDownList: DropDownList,
         onSelectFunction: function (a) {},
     });
+    
+    //for Radio button options
     $('#multiselect1').customSelect({
         btnLabel:"radioFilter",
         inputType:"radio",
