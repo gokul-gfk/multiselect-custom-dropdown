@@ -116,6 +116,7 @@
 	 align-items: center;
 	 font-weight: 700;
 	 text-transform: none;
+	 position: relative;
 }
  .custom-dropdown-select .custom-dropdownmenu .group-header .header-label.collapsed {
 	 font-weight: 400;
