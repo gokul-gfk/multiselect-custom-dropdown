@@ -12,6 +12,9 @@
             renderId: $(this).attr("id"),
             parentClass: $(this).attr("id")+'DropdownParentId',
             closeIcon: false,
+            onGetFunction: function(selectedValue){
+                return selectedValue
+            }, //callback function for when selected array changes
         }, options );
 
         $('#'+settings.renderId).wrap('<div class="'+settings.parentClass+'"></div>');
@@ -177,11 +180,13 @@
         //creating array
         function createArray(selectedValue){
             var selectedArray=[];
+            var SelectedArrayName=[];
             $.each($(renderDropdown+' .dropdown-item input:checked'), function() {
                 var text = $(this).next('label').text();
                 var value = $(this).val();
                 var customAppend=('<span class="append-text"><span class="appendText" value="'+value+'">'+text+'</span><button class="select-close-icon" title="'+value+'"><span>X</span></button></span>');
                 selectedArray.push(value)
+                SelectedArrayName.push(text)
                 if(settings.closeIcon) {
                     selectedValue.push(customAppend);
                 }
@@ -190,6 +195,9 @@
                 }
             });
             $('#'+settings.renderId).val(selectedArray);
+            // console.log(SelectedArrayName)
+            callOnSelectChange(SelectedArrayName);
+
             return selectedValue;
         }
         function textAppend(data) {
@@ -235,7 +243,16 @@
                     $(this).removeClass('checkedList');
                 }
             });
-        })
+        });
+
+
+
+        //method to get selectedArray value outer of plugin
+        function callOnSelectChange(selectedValue) {
+            settings.onGetFunction(selectedValue);
+        }
+
+        
         return this;
     };
 }( jQuery ));
@@ -324,7 +341,10 @@ $( document ).ready(function() {
         }
     });
 
-    $('#multiselect').customSelect({
+
+
+    /// USER SIDE
+    var multiselectPlugin = $('#multiselect').customSelect({
         inputType:"checkbox",
         AppendText: true,
         btnLabel:"checkboxFilter",
@@ -333,7 +353,9 @@ $( document ).ready(function() {
         SearchPlaceHolder:"Search Categories",
         closeIcon: true,
         DropDownList: DropDownList,
-        onSelectFunction: function (a) {},
+        onGetFunction: function (selectedList) {
+            console.log(selectedList)            
+        },
     });
     $('#multiselect1').customSelect({
         btnLabel:"radioFilter",
