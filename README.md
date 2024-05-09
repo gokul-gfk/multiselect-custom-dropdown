@@ -45,4 +45,5 @@ with filter option by group or child directly
  - AppendLimit 
  - DropDownListselectedArray 
  - AppendText 
- - closeIcon,
+ - closeIcon
+ - onSelectFunction
