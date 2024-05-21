@@ -1,0 +1,15 @@
+.main-container {
+    flex-direction: column;
+    background: lavender;
+}
+
+.code-container {
+    margin: 20px;
+    padding:20px;
+    border-radius: 6px;
+}
+.code-box {
+    background: #454748;
+    color:#d9dada; 
+    border-radius: 6px;
+}
