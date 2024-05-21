@@ -178,17 +178,34 @@ body {
     padding-right: 10px;
   }
   .select-close-icon {
-    height: 20px;
-    width: 20px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    height: 16px;
+    width: 16px;
     border-radius: 100%;
     background-color: #f96258;
-    display: flex;
-    justify-content: center;
-    font-size: 14px;
     margin-left: 4px;
+    margin-top: 4px;
     border: none;
     cursor: pointer;
-    color: #fff;
+    font-size: 12px;
     font-weight: 600;
+    color: #fff;
+    &:hover {
+      background-color:  #808080;
+    }
+    &::before {
+      content: 'X';
+      position: absolute;
+      height: 2px;
+      width: 80%;
+      top: 0%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: -1px;
+    }
+    &:focus-visible,&:focus{
+      outline:none;
+    }
   }
-  
