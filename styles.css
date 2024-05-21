@@ -1,1 +1,194 @@
-body{font-family:Inter,sans-serif!important}.custom-dropdown-select{position:relative}.custom-dropdown-select .category-label{position:absolute;top:20px;left:15px;transition:.15s linear;z-index:1;line-height:1;height:auto;color:#c6d8f7;font-size:15px;font-weight:400}.custom-dropdown-select .category-label.has-value{top:11px;font-size:11px;font-weight:600}.custom-dropdown-select .open{display:block}.custom-dropdown-select .multiselect-btn{display:flex;align-items:center;min-width:165px;border:1px solid #c6d8f7;background:#423f3f;color:#fff;font-size:15px;line-height:137.6%;font-weight:700;height:60px;text-align:left;padding-left:15px;text-transform:none;cursor:pointer}.custom-dropdown-select .multiselect-btn:focus{box-shadow:none}.custom-dropdown-select .multiselect-btn:after{content:none}.custom-dropdown-select .custom-dropdownmenu{max-height:850px!important;min-width:290px;padding:0 5px 5px;background:#dee4e9;box-shadow:0 10px 30px rgba(0,0,0,.1);border-radius:10px;overflow:auto;top:unset!important;transform:none!important}.custom-dropdown-select .custom-dropdownmenu:before{content:'';border-bottom:8px solid #fff;border-left:8px solid transparent;border-right:8px solid transparent;top:-8px;left:15px;position:absolute}.custom-dropdown-select .custom-dropdownmenu .input-group{padding:5px 13px 5px 15px;justify-content:space-between;height:100%;display:flex}.custom-dropdown-select .custom-dropdownmenu .input-group .search-input{border:none;height:45px;width:100%;border-radius:6px}.custom-dropdown-select .custom-dropdownmenu .input-group .search-input:focus{outline:0}.custom-dropdown-select .custom-dropdownmenu .group-header{position:relative;padding-left:10px;display:flex;align-items:center;height:45px;margin:5px 0;background-color:#a0a4a9;border-radius:6px}.custom-dropdown-select .custom-dropdownmenu .group-header .addGroupInput{height:25px;width:25px;margin:10px;display:flex;opacity:1;left:unset;position:unset}.custom-dropdown-select .custom-dropdownmenu .group-header .header-label{padding:0;text-align:left;display:flex;flex-grow:1;align-items:center;font-weight:700;height:100%;text-transform:none;color:#423f3f}.custom-dropdown-select .custom-dropdownmenu .group-header .header-label.collapsed{font-weight:400}.custom-dropdown-select .custom-dropdownmenu .group-header .header-label.collapsed:after{transform:rotate(-180deg);top:unset}.custom-dropdown-select .custom-dropdownmenu .group-header .header-label:after{position:absolute;content:'';width:8px;height:8px;border-width:2px 0 0 2px;transition:.25s linear;top:unset;border-top:8px solid #7b7e81;border-left:8px solid transparent;border-right:8px solid transparent;transform:none;right:15px}.custom-dropdown-select .custom-dropdownmenu .dropdown-item{height:45px;margin-bottom:5px;padding:0 0 0 35px;display:flex;align-items:center;border-radius:5px;font-weight:400}.custom-dropdown-select .custom-dropdownmenu .dropdown-item:hover,.customDropdown-group .dropdown-item.checkedList{background-color:#f5f8fe}.custom-dropdown-select .custom-dropdownmenu .dropdown-item input{height:25px;width:25px;opacity:1;left:unset;position:unset;cursor:pointer}.custom-dropdown-select .custom-dropdownmenu .dropdown-item label{display:flex;flex-grow:1;padding:10px;margin:0;cursor:pointer}.custom-dropdown-select .custom-dropdownmenu .dropdown-item label:before{content:unset}.custom-dropdown-select .custom-dropdownmenu .dropdown-item.tree-level-2{padding-left:50px}.append-text{display:flex;padding-right:10px}.select-close-icon{height:20px;width:20px;border-radius:100%;background-color:#f96258;display:flex;justify-content:center;font-size:14px;margin-left:4px;border:none;cursor:pointer;color:#fff;font-weight:600}
+body {
+    font-family: Inter, sans-serif !important;
+  }
+  .custom-dropdown-select {
+    position: relative;
+    width: 250px;
+  }
+  .custom-dropdown-select .category-label {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    transition: 0.15s linear;
+    z-index: 1;
+    line-height: 1;
+    height: auto;
+    color: #c6d8f7;
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .custom-dropdown-select .category-label.has-value {
+    top: 11px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .custom-dropdown-select .open {
+    display: block;
+  }
+  .custom-dropdown-select .multiselect-btn {
+    display: flex;
+    align-items: center;
+    min-width: 165px;
+    border: 1px solid #c6d8f7;
+    background: #423f3f;
+    color: #fff;
+    font-size: 15px;
+    line-height: 137.6%;
+    font-weight: 700;
+    height: 60px;
+    text-align: left;
+    padding-left: 15px;
+    text-transform: none;
+    cursor: pointer;
+  }
+  .custom-dropdown-select .multiselect-btn:focus {
+    box-shadow: none;
+  }
+  .custom-dropdown-select .multiselect-btn:after {
+    content: none;
+  }
+  .custom-dropdown-select .custom-dropdownmenu {
+    max-height: 850px !important;
+    min-width: 290px;
+    padding: 0 5px 5px;
+    background: #dee4e9;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: auto;
+    top: unset !important;
+    transform: none !important;
+  }
+  .custom-dropdown-select .custom-dropdownmenu:before {
+    content: "";
+    border-bottom: 8px solid #fff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    top: -8px;
+    left: 15px;
+    position: absolute;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .input-group {
+    padding: 5px 13px 5px 15px;
+    justify-content: space-between;
+    height: 100%;
+    display: flex;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .input-group .search-input {
+    border: none;
+    height: 45px;
+    width: 100%;
+    border-radius: 6px;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .input-group .search-input:focus {
+    outline: 0;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .group-header {
+    position: relative;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    height: 45px;
+    margin: 5px 0;
+    background-color: #a0a4a9;
+    border-radius: 6px;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .group-header .addGroupInput {
+    height: 25px;
+    width: 25px;
+    margin: 10px;
+    display: flex;
+    opacity: 1;
+    left: unset;
+    position: unset;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .group-header .header-label {
+    padding: 0;
+    text-align: left;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    font-weight: 700;
+    height: 100%;
+    text-transform: none;
+    color: #423f3f;
+  }
+  .custom-dropdown-select
+    .custom-dropdownmenu
+    .group-header
+    .header-label.collapsed {
+    font-weight: 400;
+  }
+  .custom-dropdown-select
+    .custom-dropdownmenu
+    .group-header
+    .header-label.collapsed:after {
+    transform: rotate(-180deg);
+    top: unset;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .group-header .header-label:after {
+    position: absolute;
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-width: 2px 0 0 2px;
+    transition: 0.25s linear;
+    top: unset;
+    border-top: 8px solid #7b7e81;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    transform: none;
+    right: 15px;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item {
+    height: 45px;
+    margin-bottom: 5px;
+    padding: 0 0 0 35px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 400;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item:hover,
+  .customDropdown-group .dropdown-item.checkedList {
+    background-color: #f5f8fe;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item input {
+    height: 25px;
+    width: 25px;
+    opacity: 1;
+    left: unset;
+    position: unset;
+    cursor: pointer;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item label {
+    display: flex;
+    flex-grow: 1;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item label:before {
+    content: unset;
+  }
+  .custom-dropdown-select .custom-dropdownmenu .dropdown-item.tree-level-2 {
+    padding-left: 50px;
+  }
+  .append-text {
+    display: flex;
+    padding-right: 10px;
+  }
+  .select-close-icon {
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background-color: #f96258;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    margin-left: 4px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+  }
+  
