@@ -1,4 +1,7 @@
-# multiselect-custom-dropdown
+# MultiSelect-Custom-Dropdown
+
+MultiSelect-Custom-Dropdown is a jQuery-based replacement for select boxes. It supports searching, select.
+
 You can view a live demo [Here](https://gokul-gfk.github.io/multiselect-custom-dropdown/)
 
 
